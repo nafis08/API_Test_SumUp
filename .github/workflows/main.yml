@@ -1,0 +1,59 @@
+name: CI - API Test Suite
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'  # Nightly at 2:00 AM UTC
+
+jobs:
+  build-and-test:
+    name: Build and Test
+    runs-on: ubuntu-latest
+
+    env:
+      BASE_URL: https://global-bank-qa-challenge-external.fleet.dev.eu-west-1.sumup.net
+      API_KEY: ${{ secrets.API_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '11'
+
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set up environment file
+        run: |
+          echo "BASE_URL=${{ env.BASE_URL }}" >> .env
+          echo "API_KEY=${{ env.API_KEY }}" >> .env
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Generate Allure report
+        run: |
+          mkdir -p allure-report
+          mvn allure:report
+
+      - name: Upload Allure report as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: target/site/allure-maven-plugin/
