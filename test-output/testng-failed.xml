@@ -3,11 +3,31 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="tast.java.Authentication">
+      <class name="test.java.CreateBankAccountTest">
         <methods>
-          <include name="login"/>
+          <include name="cleanAllureResultsFolder"/>
+          <include name="creatAccount"/>
         </methods>
-      </class> <!-- tast.java.Authentication -->
+      </class> <!-- test.java.CreateBankAccountTest -->
+      <class name="test.java.ApiKeyCreationTest">
+        <methods>
+          <include name="getApiKey"/>
+          <include name="cleanAllureResultsFolder"/>
+        </methods>
+      </class> <!-- test.java.ApiKeyCreationTest -->
+      <class name="test.java.GetBankAccountDetailsNegativeTests">
+        <methods>
+          <include name="getAccountDetailsWithoutApiKey"/>
+          <include name="getAccountDetailsWithZeroId"/>
+          <include name="cleanAllureResultsFolder"/>
+        </methods>
+      </class> <!-- test.java.GetBankAccountDetailsNegativeTests -->
+      <class name="test.java.SignUpTest">
+        <methods>
+          <include name="signUp"/>
+          <include name="cleanAllureResultsFolder"/>
+        </methods>
+      </class> <!-- test.java.SignUpTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
