@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [main]
   schedule:
-    - cron: '0 2 * * *'  # Nightly at 2:00 AM UTC
+    - cron: '0 2 * * *'  # Runs nightly at 2:00 AM UTC
 
 jobs:
   build-and-test:
@@ -44,8 +44,15 @@ jobs:
       - name: Build with Maven
         run: mvn clean install
 
-      - name: Run tests (ignore failure temporarily)
-        run: mvn test || true
+      - name: Run tests
+        run: mvn test
+
+      - name: Upload Surefire Reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
 
       - name: Generate Allure report
         run: |
@@ -57,4 +64,3 @@ jobs:
         with:
           name: allure-report
           path: target/site/allure-maven-plugin/
-
