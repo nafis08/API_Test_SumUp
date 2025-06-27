@@ -106,7 +106,6 @@ API_Test_SumUp-main/
 | ✔️ Valid account creation | Ensures all required fields result in successful account |
 | ✔️ Underage client validation | Prevents account creation for clients under 18 |
 | ✔️ Name length check | Validates name length does not exceed 50 characters |
-| ✔️ IBAN Polling | Ensures IBAN is eventually generated |
 | ✔️ Initial deposit check | Ensures deposit is correctly recorded |
 
 ---
@@ -115,9 +114,9 @@ API_Test_SumUp-main/
 
 | ID | Description | Severity | Status |
 |----|-------------|----------|--------|
-| 1  | IBAN generation may exceed polling timeout | Low | In Progress |
+| 1  | Accepting null values as userName | High | In Progress |
 | 2  | Error message for underage client is unclear | Medium | Reported |
-| 3  | Accepts names with trailing whitespace | Low | Confirmed |
+| 3  | Accepts SQL and Script injection | Low | Confirmed |
 
 ---
 
@@ -125,32 +124,8 @@ API_Test_SumUp-main/
 
 - [ ] Add DataProviders for parameterized test inputs
 - [ ] Implement retry logic for IBAN polling
-- [ ] CI/CD integration (e.g. GitHub Actions)
 - [ ] Add mock API support for edge case testing
 - [ ] Improve error response parsing and assertions
 - [ ] Support environment switching (local/staging/prod)
+- [ ] Implement BDD for better understanding of the test cases
 
----
-
-## 💡 Suggestions for Improvement
-
-- Add webhook support for account readiness instead of polling
-- Standardize API error messages and response structures
-- Include DELETE endpoint for test data cleanup
-- Add response time tracking to validate performance SLAs
-
----
-
-## 🤝 Contributing
-
-1. Fork this repo
-2. Create a feature branch: `git checkout -b feature/my-test`
-3. Commit your changes: `git commit -m "add: new test for X"`
-4. Push to your branch: `git push origin feature/my-test`
-5. Open a Pull Request
-
----
-
-## 📜 License
-
-This project is internal and part of the SumUp QA Challenge – 2025.
